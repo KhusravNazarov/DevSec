@@ -1,4 +1,4 @@
-name: Gitleaks Secret Scan
+name: Gitleaks Full Repo Scan
 
 on:
   pull_request:
@@ -6,19 +6,18 @@ on:
 
 jobs:
   gitleaks-scan:
+    name: Gitleaks Full Commit History Scan
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout full history
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # IMPORTANT: needed for commit diff scanning
+          fetch-depth: 0  # Fetch full commit history
 
-      - name: ls
-        run: ls -la
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
-        with:
-          config-path: .gitleaks.toml  # optional if using a custom config
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_RUN_ARGS: detect --source=. --verbose --report-format sarif --exit-code 1
 
