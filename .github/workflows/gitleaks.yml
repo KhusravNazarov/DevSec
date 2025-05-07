@@ -26,5 +26,3 @@ jobs:
           args: detect --source=. --no-git --redact --report-format=sarif --report-path=gitleaks-working-dir.sarif --exit-code 1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
