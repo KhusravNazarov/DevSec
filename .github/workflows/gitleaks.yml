@@ -1,31 +1,17 @@
-name: Gitleaks Secret Scan
+name: Secret Scanning with GitLeaks
 
-on:
-  pull_request:
-    branches: [main]
+on: [push, pull_request]
 
 jobs:
-  gitleaks-scan:
-    name: Gitleaks Scan
+  gitleaks:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Fix for ambiguous commit errors
+        uses: actions/checkout@v4
 
-      - name: Run Gitleaks on Git history
+      - name: Run GitLeaks Secret Scanning
         uses: gitleaks/gitleaks-action@v2
         with:
-          args: detect --redact --report-format=sarif --report-path=gitleaks-history.sarif --exit-code 1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          config-path: .gitleaks.toml
 
-      - name: Run Gitleaks on working directory (no-git)
-        uses: gitleaks/gitleaks-action@v2
-        with:
-          args: detect --source=. --no-git --redact --report-format=sarif --report-path=gitleaks-current.sarif --exit-code 1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
