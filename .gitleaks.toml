@@ -1,0 +1,5 @@
+[[rules]]
+id = "aws-test-key"
+description = "Test AWS API Key"
+regex = '''AKIA[0-9A-Z]{16}'''
+secretGroup = 0
