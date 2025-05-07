@@ -6,19 +6,19 @@ on:
 
 jobs:
   gitleaks-scan:
-    name: Gitleaks Scan
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code with full history
+      - name: Checkout full git history
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Ensures full commit history is available
+          fetch-depth: 0
 
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
         with:
-          args: detect --redact --exit-code 1
+          args: detect --source=. --redact --exit-code 1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
